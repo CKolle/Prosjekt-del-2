@@ -20,23 +20,20 @@ def lag_avtale()-> Avtale:
             print("Ugyldig tall, prøv igjen")
             continue
         if varighet_min < 0:
-            print("En avtale kan ikke vare mindre enn 0 minutter, prøv igjen")
+            print("En avtale kan ikke vare mindre enn 0 minutter, prøv igjen😂")
             continue
         break
 
     while True:
         dato = input("Venglist oppgi dato for avtalen (DD.MM.ÅÅÅÅ): ").split(".")
-        dag, maaende, aar = dato
-        if len(dag) > 2 or len(maaende) > 2:
-            print("Venligst oppgi en gyldig dato")
-            continue
-        if len(aar) > 4:
-            print("Venligst oppgi en gyldig dato")
-            continue
         try:
+            dag, maanede, aar = dato
             dag = int(dag)
-            maaende = int(maaende)
+            maanede = int(maanede)
             aar = int(aar)
+
+            #Ser om det er en gyldig dato
+            datetime(aar, maanede, dag)
         except ValueError:
             print("Venglist oppgi en gyldig dato")
             continue
@@ -44,23 +41,20 @@ def lag_avtale()-> Avtale:
 
     while True:
         klokkeslett = input("Vengligst oppi et klokkelsett for avtalen (TT:MM): ").split(":")
-        time, minutt = klokkeslett
-        if len(time) > 2 or len(minutt) > 2:
-            print("Venligst oppgi et gyldig klokkeslett")
-            continue
         try:
+            time, minutt = klokkeslett
             time = int(time)
             minutt = int(minutt)
+            starttidspunkt = datetime(aar, maanede, dag, time, minutt)
         except ValueError:
             print("Venglisgt oppgi et gyldig klokkeslett")
             continue
         break
-    starttidspunkt = datetime(aar, maaende, dag, time, minutt)
+
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
 def main():
-    """Ingang til programmet"""
-    lag_avtale()
+    """Ingangen til programmet"""
 
 if __name__ == "__main__":
     main()
