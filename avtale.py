@@ -60,7 +60,7 @@ def lag_avtale()-> Avtale:
 
 def main():
     """Ingang til programmet"""
-    ...
+    lag_avtale()
 
 if __name__ == "__main__":
     main()
