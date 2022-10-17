@@ -10,8 +10,8 @@ class Avtale:
 def lag_avtale()-> Avtale:
     """Lager et gyldig avtale objekt"""
 
-    tittel = input("Venligst oppgi navnet på tittelen på avtalen: ")
-    sted = input("Venglist oppgi stedet for avtalen: ")
+    tittel = input("Vennligst oppgi navnet på tittelen på avtalen: ")
+    sted = input("Vennligst oppgi stedet for avtalen: ")
     while True:
         try:
             varighet_min = int(input("Vengligst oppgi hvor lenge avtalen varer (minutter): ").replace(",","."))
@@ -24,7 +24,7 @@ def lag_avtale()-> Avtale:
         break
 
     while True:
-        dato = input("Venglist oppgi dato for avtalen (DD.MM.ÅÅÅÅ): ").split(".")
+        dato = input("Vennligst oppgi dato for avtalen (DD.MM.ÅÅÅÅ): ").split(".")
         try:
             dag, maanede, aar = dato
             dag = int(dag)
@@ -34,7 +34,7 @@ def lag_avtale()-> Avtale:
             #Ser om det er en gyldig dato
             datetime(aar, maanede, dag)
         except ValueError:
-            print("Venglist oppgi en gyldig dato")
+            print("Vennligst oppgi en gyldig dato")
             continue
         break 
 
