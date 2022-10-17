@@ -54,7 +54,7 @@ def lag_avtale()-> Avtale:
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
 def main():
-    """Ingangen til programmet"""
+    """Inngangen til programmet"""
 
 if __name__ == "__main__":
     main()
