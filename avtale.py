@@ -1,5 +1,4 @@
 from datetime import datetime
-from multiprocessing.sharedctypes import Value
 
 class Avtale:
     def __init__(self, tittel: str, sted: str, varighet_min: int, starttidspunkt: datetime ) -> None:
