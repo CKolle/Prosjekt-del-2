@@ -58,3 +58,9 @@ def lag_avtale()-> Avtale:
     starttidspunkt = datetime(aar, maaende, dag, time, minutt)
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
+def main():
+    """Ingang til programmet"""
+    ...
+
+if __name__ == "__main__":
+    main()
