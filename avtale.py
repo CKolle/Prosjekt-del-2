@@ -15,7 +15,7 @@ def lag_avtale()-> Avtale:
     sted = input("Venglist oppgi stedet for avtalen: ")
     while True:
         try:
-            varighet_min = int(input("Vengligst oppgi hvor lenge avtalen varer: ").replace(",","."))
+            varighet_min = int(input("Vengligst oppgi hvor lenge avtalen varer (minutter): ").replace(",","."))
         except ValueError:
             print("Ugyldig tall, prøv igjen")
             continue
