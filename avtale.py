@@ -7,6 +7,9 @@ class Avtale:
         self.varighet_min = varighet_min
         self.starttidspunkt = starttidspunkt
 
+    def __str__(self):
+        return f'Avtale: {self.tittel}\nSted: {self.sted}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt}'
+
 def lag_avtale()-> Avtale:
     """Lager et gyldig avtale objekt"""
 
@@ -57,3 +60,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
