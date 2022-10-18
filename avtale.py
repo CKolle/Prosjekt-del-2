@@ -55,6 +55,13 @@ def lag_avtale()-> Avtale:
 
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
+def utskrift_avtaler(avtaler:list, overskrift=""):
+    if overskrift != "":
+        print(overskrift)
+    for i in avtaler:
+        print(f'{avtaler.index(i)}: {i.tittel}')
+
+
 def main():
     """Inngangen til programmet"""
 
