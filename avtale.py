@@ -62,6 +62,8 @@ def lag_avtale() -> Avtale:
 
 
 def utskrift_avtaler(avtaler: list[Avtale], overskrift=""):
+    """Printer en liste med avtaler med indeks tittel og en felles overskrift"""
+
     if overskrift != "":
         print(overskrift)
     for avtale in avtaler:
