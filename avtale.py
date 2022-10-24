@@ -92,10 +92,33 @@ def lagre_liste(avtaler: list[Avtale]):
     with open("avtale.txt", "w") as avtale_fil:
         json.dump(avtale_dataer, avtale_fil, indent=4, sort_keys=True)
 
+def lese_fil(filnavn:str):
+    """Leser inn avtaler fra en fil"""
+
+    with open(filnavn, "r") as avtale_fil:
+        avtaler_json = json.load(avtale_fil)
+    
+    # Konverterer fra tekst til en liste med avtale objekter
+    avtaler_liste = []
+    for avtale in avtaler_json:
+        tittel = avtale['tittel']
+        sted = avtale['sted']
+        varighet_min = avtale['varighet_min']
+
+        # Dato i stringformat -> datetime objekt
+        aar, maaned, dag = avtale['starttidspunkt'].split()[0].split('-')
+        time, minutt, sekund = avtale['starttidspunkt'].split()[1].split(':')
+        aar, maaned, dag = int(aar), int(maaned), int(dag)
+        time, minutt, sekund = int(time), int(minutt), int(sekund)
+        starttidspunkt_datetime  = datetime(aar, maaned, dag, time ,minutt, sekund)
+
+        # Lager avtaleobjekt og lagrer det til en liste
+        avtaler_liste.append(Avtale(tittel, sted, varighet_min, starttidspunkt_datetime))
+
+    return avtaler_liste
 
 def main():
     """Inngangen til programmet"""
-
-
+    
 if __name__ == "__main__":
     main()
