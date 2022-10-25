@@ -101,20 +101,9 @@ def lese_fil(filnavn:str):
     # Konverterer fra tekst til en liste med avtale objekter
     avtaler_liste = []
     for avtale in avtaler_json:
-        tittel = avtale['tittel']
-        sted = avtale['sted']
-        varighet_min = avtale['varighet_min']
-
-        # Dato i stringformat -> datetime objekt
-        aar, maaned, dag = avtale['starttidspunkt'].split()[0].split('-')
-        time, minutt, sekund = avtale['starttidspunkt'].split()[1].split(':')
-        aar, maaned, dag = int(aar), int(maaned), int(dag)
-        time, minutt, sekund = int(time), int(minutt), int(sekund)
-        starttidspunkt_datetime  = datetime(aar, maaned, dag, time ,minutt, sekund)
-
-        # Lager avtaleobjekt og lagrer det til en liste
-        avtaler_liste.append(Avtale(tittel, sted, varighet_min, starttidspunkt_datetime))
-
+        avtale['starttidspunkt'] = datetime.fromisoformat(avtale['starttidspunkt'])
+        avtale = Avtale(**avtale)
+        avtaler_liste.append(avtale)
     return avtaler_liste
 
 def main():
