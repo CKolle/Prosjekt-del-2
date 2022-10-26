@@ -92,12 +92,13 @@ def lagre_liste(avtaler: list[Avtale]):
     with open("avtale.txt", "w") as avtale_fil:
         json.dump(avtale_dataer, avtale_fil, indent=4, sort_keys=True)
 
-def lese_fil(filnavn:str):
+
+def lese_fil(filnavn: str):
     """Leser inn avtaler fra en fil"""
 
     with open(filnavn, "r") as avtale_fil:
         avtaler_json = json.load(avtale_fil)
-    
+
     # Konverterer fra tekst til en liste med avtale objekter
     avtaler_liste = []
     for avtale in avtaler_json:
@@ -106,19 +107,55 @@ def lese_fil(filnavn:str):
         avtaler_liste.append(avtale)
     return avtaler_liste
 
+
 def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
     """Velger dato, henter avtaler på denne datoen"""
-    
+
     filtrert = filter(lambda avtale: (avtale.starttidspunkt.date() == dato), avtale_liste)
     return list(filtrert)
 
+
 def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
+    """Søker strenger i en avtale"""
+
     filtrert = filter(lambda avtale: (avtale.tittel in streng), avtale_liste)
     return list(filtrert)
 
 
+def vis_meny():
+    """Lager et meny system for alle kommandoer"""
+
+    avtale_lister = []
+    while True:
+        print("Les avtale fra fil [1]")
+        print("Lag avtale [2]")
+        print("Lagre avtaler til fil [3]")
+        print("Print avtaler [4]")
+        print("Avslutt [5]")
+
+        svar = input(": ")
+        try:
+            svar = int(svar)
+        except ValueError:
+            print("Prøv igjen")
+            continue
+        if svar == 1:
+            avtale_lister = lese_fil("avtale.txt")
+        if svar == 2:
+            lagre_avtale = lag_avtale()
+            avtale_lister.append(lagre_avtale)
+        if svar == 3:
+            lagre_liste(avtale_lister)
+        if svar == 4:
+            utskrift_avtaler(avtale_lister)
+        if svar == 5:
+            break
+
+
 def main():
     """Inngangen til programmet"""
+    vis_meny()
+
 
 if __name__ == "__main__":
     main()
