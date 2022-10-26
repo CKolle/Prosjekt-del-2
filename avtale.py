@@ -106,8 +106,16 @@ def lese_fil(filnavn:str):
         avtaler_liste.append(avtale)
     return avtaler_liste
 
+def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
+    """Velger dato, henter avtaler på denne datoen"""
+    
+    filtrert = filter(lambda avtale: (avtale.starttidspunkt.date() == dato), avtale_liste)
+    return list(filtrert)
+
 def main():
     """Inngangen til programmet"""
-    
+
 if __name__ == "__main__":
     main()
+
+
