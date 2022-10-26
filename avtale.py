@@ -112,6 +112,11 @@ def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
     filtrert = filter(lambda avtale: (avtale.starttidspunkt.date() == dato), avtale_liste)
     return list(filtrert)
 
+def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
+    filtrert = filter(lambda avtale: (avtale.tittel in streng), avtale_liste)
+    return list(filtrert)
+
+
 def main():
     """Inngangen til programmet"""
 
