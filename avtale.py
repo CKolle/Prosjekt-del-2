@@ -1,6 +1,6 @@
 from datetime import datetime
 import json
-from multiprocessing.sharedctypes import Value
+import os
 
 
 class Avtale:
@@ -176,16 +176,23 @@ def vis_meny():
         if svar == 2:
             lagre_avtale = lag_avtale()
             avtale_lister.append(lagre_avtale)
+            print("Avtale lagd")
         if svar == 3:
             vis_avtale(avtale_lister)
         if svar == 4:
             lagre_liste(avtale_lister)
+            print("Avtale lagret")
         if svar == 5:
             utskrift_avtaler(avtale_lister)
         if svar == 6:
             slett_avtale(avtale_lister)
+            print("Avtale slettet")
         if svar == 7:
             break
+
+        input("Trykk en knapp for neste komando...")
+        # Renser terminal vinduet
+        os.system("cls||clear")
 
 
 def main():
