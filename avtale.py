@@ -102,7 +102,8 @@ def lese_fil(filnavn: str):
     # Konverterer fra tekst til en liste med avtale objekter
     avtaler_liste = []
     for avtale in avtaler_json:
-        avtale['starttidspunkt'] = datetime.fromisoformat(avtale['starttidspunkt'])
+        avtale['starttidspunkt'] = datetime.fromisoformat(
+            avtale['starttidspunkt'])
         avtale = Avtale(**avtale)
         avtaler_liste.append(avtale)
     return avtaler_liste
@@ -111,7 +112,8 @@ def lese_fil(filnavn: str):
 def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
     """Velger dato, henter avtaler på denne datoen"""
 
-    filtrert = filter(lambda avtale: (avtale.starttidspunkt.date() == dato), avtale_liste)
+    filtrert = filter(lambda avtale: (
+        avtale.starttidspunkt.date() == dato), avtale_liste)
     return list(filtrert)
 
 
@@ -154,14 +156,21 @@ def vis_meny():
         if svar == 2:
             lagre_avtale = lag_avtale()
             avtale_lister.append(lagre_avtale)
+            print("Avtale lagd")
         if svar == 3:
             lagre_liste(avtale_lister)
+            print("Avtale lagret")
         if svar == 4:
             utskrift_avtaler(avtale_lister)
         if svar == 5:
             slett_avtale(avtale_lister)
+            print("Avtale slettet")
         if svar == 6:
             break
+
+        input("Trykk en knapp for neste komando...")
+        # Renser terminal vinduet
+        print("\033c\033[3J\033[2J\033[0m\033[H")
 
 
 def main():
@@ -171,5 +180,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
