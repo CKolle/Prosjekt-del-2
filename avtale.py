@@ -134,7 +134,7 @@ def slett_avtale(avtale_lister):
     return avtale_lister
 
 
-def vis_avtale(avtale_lister):
+def vis_avtale(avtale_lister: list[Avtale]):
     if not avtale_lister:
         print("Du har ingen avtaler enda")
         return
