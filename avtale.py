@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+from multiprocessing.sharedctypes import Value
 
 
 class Avtale:
@@ -10,7 +11,7 @@ class Avtale:
         self.starttidspunkt = starttidspunkt
 
     def __str__(self):
-        return f"Avtale: {self.tittel}\nSted: {self.sted}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt}"
+        return f"Avtale: {self.tittel}\nSted: {self.sted}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt.strftime('%d.%m.%Y kl. %H:%M')}"
 
 
 def lag_avtale() -> Avtale:
@@ -102,7 +103,8 @@ def lese_fil(filnavn: str):
     # Konverterer fra tekst til en liste med avtale objekter
     avtaler_liste = []
     for avtale in avtaler_json:
-        avtale['starttidspunkt'] = datetime.fromisoformat(avtale['starttidspunkt'])
+        avtale['starttidspunkt'] = datetime.fromisoformat(
+            avtale['starttidspunkt'])
         avtale = Avtale(**avtale)
         avtaler_liste.append(avtale)
     return avtaler_liste
@@ -111,7 +113,8 @@ def lese_fil(filnavn: str):
 def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
     """Velger dato, henter avtaler på denne datoen"""
 
-    filtrert = filter(lambda avtale: (avtale.starttidspunkt.date() == dato), avtale_liste)
+    filtrert = filter(lambda avtale: (
+        avtale.starttidspunkt.date() == dato), avtale_liste)
     return list(filtrert)
 
 
@@ -131,6 +134,24 @@ def slett_avtale(avtale_lister):
     return avtale_lister
 
 
+def vis_avtale(avtale_lister):
+    if not avtale_lister:
+        print("Du har ingen avtaler enda")
+        return
+
+    while True:
+        utskrift_avtaler(avtale_lister, "Dine avtaler")
+        index = input("Velg en avtale som skal vises: ")
+        try:
+            index = int(index)
+            print(avtale_lister[index])
+        except (ValueError, IndexError):
+            print("Ugyldig index")
+            input("Trykk en knapp for å prøve igjen...")
+            continue
+        break
+
+
 def vis_meny():
     """Lager et meny system for alle kommandoer"""
 
@@ -138,10 +159,11 @@ def vis_meny():
     while True:
         print("Les avtale fra fil [1]")
         print("Lag avtale [2]")
-        print("Lagre avtaler til fil [3]")
-        print("Print avtaler [4]")
-        print("Slett avtale [5]")
-        print("Avslutt [6]")
+        print("Vis avtale [3]")
+        print("Lagre avtaler til fil [4]")
+        print("Print avtaler [5]")
+        print("Slett avtale [6]")
+        print("Avslutt [7]")
 
         svar = input(": ")
         try:
@@ -155,12 +177,14 @@ def vis_meny():
             lagre_avtale = lag_avtale()
             avtale_lister.append(lagre_avtale)
         if svar == 3:
-            lagre_liste(avtale_lister)
+            vis_avtale(avtale_lister)
         if svar == 4:
-            utskrift_avtaler(avtale_lister)
+            lagre_liste(avtale_lister)
         if svar == 5:
-            slett_avtale(avtale_lister)
+            utskrift_avtaler(avtale_lister)
         if svar == 6:
+            slett_avtale(avtale_lister)
+        if svar == 7:
             break
 
 
@@ -171,5 +195,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
