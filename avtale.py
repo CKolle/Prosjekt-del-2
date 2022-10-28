@@ -122,6 +122,15 @@ def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
     return list(filtrert)
 
 
+def slett_avtale(avtale_lister):
+
+    print(utskrift_avtaler(avtale_lister))
+    key = input("Hvilken avtale vil du slette: ")
+    key = int(key)
+    del avtale_lister[key]
+    return avtale_lister
+
+
 def vis_meny():
     """Lager et meny system for alle kommandoer"""
 
@@ -131,7 +140,8 @@ def vis_meny():
         print("Lag avtale [2]")
         print("Lagre avtaler til fil [3]")
         print("Print avtaler [4]")
-        print("Avslutt [5]")
+        print("Slett avtale [5]")
+        print("Avslutt [6]")
 
         svar = input(": ")
         try:
@@ -149,6 +159,8 @@ def vis_meny():
         if svar == 4:
             utskrift_avtaler(avtale_lister)
         if svar == 5:
+            slett_avtale(avtale_lister)
+        if svar == 6:
             break
 
 
