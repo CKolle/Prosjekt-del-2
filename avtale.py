@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import os
 
 
 class Avtale:
@@ -170,7 +171,7 @@ def vis_meny():
 
         input("Trykk en knapp for neste komando...")
         # Renser terminal vinduet
-        print("\033c\033[3J\033[2J\033[0m\033[H")
+        os.system("cls||clear")
 
 
 def main():
