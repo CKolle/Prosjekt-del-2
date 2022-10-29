@@ -127,7 +127,7 @@ def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
 
 def slett_avtale(avtale_lister):
     
-    print(utskrift_avtaler(avtale_lister))
+    utskrift_avtaler(avtale_lister)
     key = input("Hvilken avtale vil du slette: ")
     key = int(key)
     del avtale_lister[key]
@@ -137,7 +137,7 @@ def slett_avtale(avtale_lister):
 def endre_avtale(avtale_lister):
     # Sletter og lager ein ny avtale
     
-    print(utskrift_avtaler(avtale_lister))
+    utskrift_avtaler(avtale_lister)
     key = input("Hvilken avtale vil du redigere: ")
     key = int(key)
     del avtale_lister[key]
