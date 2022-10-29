@@ -126,11 +126,23 @@ def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
 
 
 def slett_avtale(avtale_lister):
-
+    
     print(utskrift_avtaler(avtale_lister))
     key = input("Hvilken avtale vil du slette: ")
     key = int(key)
     del avtale_lister[key]
+    return avtale_lister
+
+
+def endre_avtale(avtale_lister):
+    # Sletter og lager ein ny avtale
+    
+    print(utskrift_avtaler(avtale_lister))
+    key = input("Hvilken avtale vil du redigere: ")
+    key = int(key)
+    del avtale_lister[key]
+    ny_avtale = lag_avtale()
+    avtale_lister.append(ny_avtale)
     return avtale_lister
 
 
@@ -163,7 +175,8 @@ def vis_meny():
         print("Lagre avtaler til fil [4]")
         print("Print avtaler [5]")
         print("Slett avtale [6]")
-        print("Avslutt [7]")
+        print("Endre avtale [7"]
+        print("Avslutt [8]")
 
         svar = input(": ")
         try:
@@ -188,6 +201,9 @@ def vis_meny():
             slett_avtale(avtale_lister)
             print("Avtale slettet")
         if svar == 7:
+             endre_avtale(avtale_lister)
+             print("Avtale endret")
+        if svar == 8:
             break
 
         input("Trykk en knapp for neste komando...")
