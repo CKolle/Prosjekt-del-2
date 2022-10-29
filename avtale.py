@@ -126,40 +126,45 @@ def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
 
 
 def slett_avtale(avtale_lister):
+    """Spør brukeren om en avtale og sletter den"""
+
     utskrift_avtaler(avtale_lister)
-    
+
     while True:
         try:
             key = input("Hvilken avtale vil du slette: ")
             key = int(key)
             del avtale_lister[key]
-        except IndexError:
+        except (ValueError, IndexError):
             print("Oppgi gyldig avtale")
             continue
         break
     return avtale_lister
 
 
-def endre_avtale(avtale_lister):
-    # Sletter og lager ein ny avtale
+def endre_avtale(avtale_lister: list[Avtale]):
+    """Spør brukeren om en avtale og lagter en ny avtale"""
+
     utskrift_avtaler(avtale_lister)
-    
+
     while True:
         try:
             key = input("Hvilken avtale vil du endre: ")
             key = int(key)
             del avtale_lister[key]
-        except IndexError:
+        except (ValueError, IndexError):
             print("Oppgi gyldig avtale")
             continue
         break
-        
+
     ny_avtale = lag_avtale()
     avtale_lister.append(ny_avtale)
     return avtale_lister
 
 
 def vis_avtale(avtale_lister: list[Avtale]):
+    """Spør brukeren om en avtale og viser den"""
+
     if not avtale_lister:
         print("Du har ingen avtaler enda")
         return
@@ -188,7 +193,7 @@ def vis_meny():
         print("Lagre avtaler til fil [4]")
         print("Print avtaler [5]")
         print("Slett avtale [6]")
-        print("Endre avtale [7"]
+        print("Endre avtale [7]")
         print("Avslutt [8]")
 
         svar = input(": ")
@@ -214,8 +219,8 @@ def vis_meny():
             slett_avtale(avtale_lister)
             print("Avtale slettet")
         if svar == 7:
-             endre_avtale(avtale_lister)
-             print("Avtale endret")
+            endre_avtale(avtale_lister)
+            print("Avtale endret")
         if svar == 8:
             break
 
