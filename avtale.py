@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 import os
+from utils.json.AvtaleEncoder import AvtaleEncoder
 
 
 class Avtale:
@@ -75,23 +76,9 @@ def utskrift_avtaler(avtaler: list[Avtale], overskrift=""):
 def lagre_liste(avtaler: list[Avtale]):
     """Lagrer ei liste med avtaler til en avtale fil"""
 
-    # Gjør om til data som kan tolkes av json.dump
-    avtale_dataer = []
-    for avtale in avtaler:
-        avtale_data = {}
-        for key in avtale.__dict__:
-            data = avtale.__dict__[key]
-
-            # datetime objekter blir ikke tolket av json.dump
-            # gjør dem om til streng verdier.
-            if isinstance(data, datetime):
-                avtale_data[key] = str(data)
-                continue
-            avtale_data[key] = data
-        avtale_dataer.append(avtale_data)
-
     with open("avtale.txt", "w") as avtale_fil:
-        json.dump(avtale_dataer, avtale_fil, indent=4, sort_keys=True)
+        json.dump(avtaler, avtale_fil, indent=4,
+                  cls=AvtaleEncoder, sort_keys=True)
 
 
 def lese_fil(filnavn: str):
