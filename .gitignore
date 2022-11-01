@@ -128,5 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Avtale filer
+# Brukerdatafiler
 avtale.txt
+kategori.txt
