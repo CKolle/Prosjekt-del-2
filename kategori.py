@@ -1,4 +1,6 @@
 from enum import Enum
+import json
+from utils.json.KategoriEncoder import KategoriEncoder
 
 
 class Prioritet(Enum):
@@ -18,6 +20,8 @@ class Kategori:
 
 
 def lag_kategori() -> Kategori:
+    """Lager et gyldig kategori objekt"""
+
     navn = input("Skriv inn et navn på kategorien: ")
     while True:
         id = input("Skriv inn en id: ")
@@ -42,3 +46,25 @@ def lag_kategori() -> Kategori:
             continue
         break
     return Kategori(id, navn, prioritet)
+
+
+def lagre_liste(kategorier: list[Kategori]) -> None:
+    """Tar inn en liste med kategorier, og lagrer dem i filen kategori.txt på json format"""
+
+    with open("kategori.txt", "w") as kategori_fil:
+        json.dump(kategorier, kategori_fil,
+                  cls=KategoriEncoder, indent=4, sort_keys=True)
+
+
+def les_liste() -> list[Kategori]:
+    """Leser in en json fil med kategorier. Returnerer en liste med kategorier"""
+
+    with open("kategori.txt", "r") as kateogri_fil:
+        kategori_json = json.load(kateogri_fil)
+
+    kategorier = []
+    for kategori in kategori_json:
+        kategori["prioritet"] = Prioritet(kategori["prioritet"])
+        kategori = Kategori(**kategori)
+        kategorier.append(kategori)
+    return kategorier
