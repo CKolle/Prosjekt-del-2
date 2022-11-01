@@ -18,7 +18,6 @@ class Kategori:
     def __str__(self) -> str:
         return f"Id: {self.id}, Navn: {self.navn}, Prioritet: {self.prioritet.name.lower().replace('ae', 'æ').replace('_', ' ')}"
 
-
 def lag_kategori() -> Kategori:
     """Lager et gyldig kategori objekt"""
 
@@ -68,3 +67,12 @@ def les_liste() -> list[Kategori]:
         kategori = Kategori(**kategori)
         kategorier.append(kategori)
     return kategorier
+
+def utskrift_kategorier(kategorier: list[Kategori], overskrift=""):
+    """Printer en liste med kategorier med indeks, navn og en felles overskrift"""
+
+    if overskrift != "":
+        print(overskrift)
+    for kategori in kategorier:
+        print(f"{kategorier.index(kategori)}: {kategori.navn}")
+
