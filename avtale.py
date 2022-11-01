@@ -97,7 +97,7 @@ def lese_fil(filnavn: str):
     return avtaler_liste
 
 
-def velg_dato(avtale_liste: list[Avtale], dato: datetime.date):
+def velg_dato(avtale_liste: list[Avtale], dato: datetime):
     """Velger dato, henter avtaler på denne datoen"""
 
     filtrert = filter(lambda avtale: (
