@@ -3,6 +3,12 @@ from typing import Callable
 
 
 def hent_int(melding: str, error_melding: str, min: int = None, max: int = None, pre_printfunk: Callable = None, *args) -> int:
+    """Henter en gyldig input fra brukeren. Du må oppgi en melding og error_meldning som et minimum
+       Funksjonen tar også inn en pre_printfunk, som kan printe/gjøre noe for hver gang funksjonen prøver å få et 
+       tall fra brukeren. pre_printfunk argumentet kan tar inn argumenter gjennom *args
+
+    """
+
     IGJEN_MELDING = "Trykk på en knapp for å prøve igjen..."
 
     while True:
@@ -32,6 +38,7 @@ def hent_int(melding: str, error_melding: str, min: int = None, max: int = None,
 
 
 def hent_datoklokkeslett() -> datetime:
+    """Henter inn et gyldig datetime objekt fra brukeren som inkluderer klokkeslett"""
 
     while True:
         dato = input(
