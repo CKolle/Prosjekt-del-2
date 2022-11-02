@@ -1,4 +1,3 @@
-
 from json import JSONEncoder
 from typing import Any
 
