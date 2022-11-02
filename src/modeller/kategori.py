@@ -19,24 +19,6 @@ class Kategori:
         return f"Id: {self.id}, Navn: {self.navn}, Prioritet: {self.prioritet.name.lower().replace('ae', 'æ').replace('_', ' ')}"
 
 
-class Sted:
-    def __init__(self, id: int, navn: str, gateadresse = None, postnummer = None, poststed = None) -> None:
-        self.id = id
-        self.navn = navn
-        self.gateadresse = gateadresse
-        self.postnummer = postnummer
-        self.poststed = poststed
-    
-    def __str__(self) -> str:
-        streng_konstruksjon = ''
-        egenskap_dict = {'Id': self.id, 'Navn': self.navn, 'Gateadresse': self.gateadresse,
-        'Postnummer': self.postnummer, 'Poststed': self.poststed}
-        for egenskap, verdi in egenskap_dict.items():
-            if verdi:
-                streng_konstruksjon+=f'{egenskap}: {verdi}, '
-        return streng_konstruksjon.rstrip(', ')
-
-
 def lag_kategori() -> Kategori:
     """Lager et gyldig kategori objekt"""
 
@@ -66,7 +48,7 @@ def lag_kategori() -> Kategori:
     return Kategori(id, navn, prioritet)
 
 
-def lagre_liste(kategorier: list[Kategori]) -> None:
+def lagre_avtaler(kategorier: list[Kategori]) -> None:
     """Tar inn en liste med kategorier, og lagrer dem i filen kategori.txt på json format"""
 
     with open("kategori.txt", "w") as kategori_fil:
@@ -74,7 +56,7 @@ def lagre_liste(kategorier: list[Kategori]) -> None:
                   cls=KategoriEncoder, indent=4, sort_keys=True)
 
 
-def les_liste() -> list[Kategori]:
+def les_avtaler() -> list[Kategori]:
     """Leser in en json fil med kategorier. Returnerer en liste med kategorier"""
 
     with open("kategori.txt", "r") as kateogri_fil:
