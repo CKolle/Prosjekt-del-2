@@ -1,6 +1,5 @@
 from datetime import datetime
 import json
-import os
 from utils.json.AvtaleEncoder import AvtaleEncoder
 
 
@@ -73,7 +72,7 @@ def utskrift_avtaler(avtaler: list[Avtale], overskrift=""):
         print(f"{avtaler.index(avtale)}: {avtale.tittel}")
 
 
-def lagre_liste(avtaler: list[Avtale]):
+def lagre_avtaler(avtaler: list[Avtale]):
     """Lagrer ei liste med avtaler til en avtale fil"""
 
     with open("avtale.txt", "w") as avtale_fil:
@@ -81,7 +80,7 @@ def lagre_liste(avtaler: list[Avtale]):
                   cls=AvtaleEncoder, sort_keys=True)
 
 
-def lese_fil(filnavn: str):
+def les_avtaler(filnavn: str):
     """Leser inn avtaler fra en fil"""
 
     with open(filnavn, "r") as avtale_fil:
@@ -97,7 +96,7 @@ def lese_fil(filnavn: str):
     return avtaler_liste
 
 
-def velg_dato(avtale_liste: list[Avtale], dato: datetime):
+def datofiltrer_avtale(avtale_liste: list[Avtale], dato: datetime):
     """Velger dato, henter avtaler på denne datoen"""
 
     filtrert = filter(lambda avtale: (
@@ -105,7 +104,7 @@ def velg_dato(avtale_liste: list[Avtale], dato: datetime):
     return list(filtrert)
 
 
-def sok_avtale_streng(avtale_liste: list[Avtale], streng: str):
+def strengfiltrer_avtale(avtale_liste: list[Avtale], streng: str):
     """Søker strenger i en avtale"""
 
     filtrert = filter(lambda avtale: (avtale.tittel in streng), avtale_liste)
@@ -167,59 +166,3 @@ def vis_avtale(avtale_lister: list[Avtale]):
             input("Trykk en knapp for å prøve igjen...")
             continue
         break
-
-
-def vis_meny():
-    """Lager et meny system for alle kommandoer"""
-
-    avtale_lister = []
-    while True:
-        print("Les avtale fra fil [1]")
-        print("Lag avtale [2]")
-        print("Vis avtale [3]")
-        print("Lagre avtaler til fil [4]")
-        print("Print avtaler [5]")
-        print("Slett avtale [6]")
-        print("Endre avtale [7]")
-        print("Avslutt [8]")
-
-        svar = input(": ")
-        try:
-            svar = int(svar)
-        except ValueError:
-            print("Prøv igjen")
-            continue
-        if svar == 1:
-            avtale_lister = lese_fil("avtale.txt")
-        if svar == 2:
-            lagre_avtale = lag_avtale()
-            avtale_lister.append(lagre_avtale)
-            print("Avtale lagd")
-        if svar == 3:
-            vis_avtale(avtale_lister)
-        if svar == 4:
-            lagre_liste(avtale_lister)
-            print("Avtale lagret")
-        if svar == 5:
-            utskrift_avtaler(avtale_lister)
-        if svar == 6:
-            slett_avtale(avtale_lister)
-            print("Avtale slettet")
-        if svar == 7:
-            endre_avtale(avtale_lister)
-            print("Avtale endret")
-        if svar == 8:
-            break
-
-        input("Trykk en knapp for neste komando...")
-        # Renser terminal vinduet
-        os.system("cls||clear")
-
-
-def main():
-    """Inngangen til programmet"""
-    vis_meny()
-
-
-if __name__ == "__main__":
-    main()
