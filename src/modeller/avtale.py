@@ -80,7 +80,7 @@ def slett_avtale(avtale_lister):
     max = len(avtale_lister) - 1
     min = 0
     key = hent_int("Hvilken avtale vil du slette: ",
-                   "Oppgi en gyldig avtale", min, max, utskrift_avtaler(), avtale_lister)
+                   "Oppgi en gyldig avtale", min, max, utskrift_avtaler, avtale_lister)
     del avtale_lister[key]
 
 
