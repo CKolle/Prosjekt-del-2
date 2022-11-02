@@ -18,6 +18,25 @@ class Kategori:
     def __str__(self) -> str:
         return f"Id: {self.id}, Navn: {self.navn}, Prioritet: {self.prioritet.name.lower().replace('ae', 'æ').replace('_', ' ')}"
 
+
+class Sted:
+    def __init__(self, id: int, navn: str, gateadresse = None, postnummer = None, poststed = None) -> None:
+        self.id = id
+        self.navn = navn
+        self.gateadresse = gateadresse
+        self.postnummer = postnummer
+        self.poststed = poststed
+    
+    def __str__(self) -> str:
+        streng_konstruksjon = ''
+        egenskap_dict = {'Id': self.id, 'Navn': self.navn, 'Gateadresse': self.gateadresse,
+        'Postnummer': self.postnummer, 'Poststed': self.poststed}
+        for egenskap, verdi in egenskap_dict.items():
+            if verdi:
+                streng_konstruksjon+=f'{egenskap}: {verdi}, '
+        return streng_konstruksjon.rstrip(', ')
+
+
 def lag_kategori() -> Kategori:
     """Lager et gyldig kategori objekt"""
 
@@ -68,6 +87,7 @@ def les_liste() -> list[Kategori]:
         kategorier.append(kategori)
     return kategorier
 
+
 def utskrift_kategorier(kategorier: list[Kategori], overskrift=""):
     """Printer en liste med kategorier med indeks, navn og en felles overskrift"""
 
@@ -75,4 +95,3 @@ def utskrift_kategorier(kategorier: list[Kategori], overskrift=""):
         print(overskrift)
     for kategori in kategorier:
         print(f"{kategorier.index(kategori)}: {kategori.navn}")
-
