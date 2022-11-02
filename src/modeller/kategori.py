@@ -1,6 +1,7 @@
 from enum import Enum
 import json
 from utils.json.KategoriEncoder import KategoriEncoder
+from utils.input_hjelper import hent_int
 
 
 class Prioritet(Enum):
@@ -23,28 +24,14 @@ def lag_kategori() -> Kategori:
     """Lager et gyldig kategori objekt"""
 
     navn = input("Skriv inn et navn på kategorien: ")
-    while True:
-        id = input("Skriv inn en id: ")
-        try:
-            id = int(id)
-        except ValueError:
-            print("Ugyldig ID, prøv igjen. Husk id er et tall")
-            continue
-        break
-    while True:
-        print("Velg en prioritet")
-        print("Vanlig [1]")
-        print("Viktig [2]")
-        print("Svært viktig [3]")
-        valg = input(": ")
-        try:
-            valg = int(valg)
-            prioritet = Prioritet(valg)
-        except ValueError:
-            print("Ugyldig valg, prøv igjen")
-            input("Trykk en knapp for å prøve igjen...")
-            continue
-        break
+
+    id = hent_int("Skriv inn en id: ",
+                  "Ugyldig ID, prøv igjen. Husk id er et tall")
+
+    prioritet_valg = hent_int(
+        "Velg en prioritet\n Vanlig [1]\n Viktig [2]\n Svært vikitg [3]\n: ", "Ugyldig valg", 1, 3)
+
+    prioritet = Prioritet(prioritet_valg)
     return Kategori(id, navn, prioritet)
 
 

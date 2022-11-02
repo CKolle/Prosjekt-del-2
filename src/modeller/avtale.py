@@ -1,4 +1,5 @@
 from datetime import datetime
+from utils.input_hjelper import hent_int, hent_datoklokkeslett
 import json
 from utils.json.AvtaleEncoder import AvtaleEncoder
 
@@ -19,47 +20,9 @@ def lag_avtale() -> Avtale:
 
     tittel = input("Vennligst oppgi navnet på tittelen på avtalen: ")
     sted = input("Vennligst oppgi stedet for avtalen: ")
-    while True:
-        try:
-            varighet_min = int(
-                input("Vengligst oppgi hvor lenge avtalen varer (minutter): ").replace(",", "."))
-        except ValueError:
-            print("Ugyldig tall, prøv igjen")
-            continue
-        if varighet_min < 0:
-            print("En avtale kan ikke vare mindre enn 0 minutter, prøv igjen😂")
-            continue
-        break
-
-    while True:
-        dato = input(
-            "Vennligst oppgi dato for avtalen (DD.MM.ÅÅÅÅ): ").split(".")
-        try:
-            dag, maanede, aar = dato
-            dag = int(dag)
-            maanede = int(maanede)
-            aar = int(aar)
-
-            # Ser om det er en gyldig dato
-            datetime(aar, maanede, dag)
-        except ValueError:
-            print("Vennligst oppgi en gyldig dato")
-            continue
-        break
-
-    while True:
-        klokkeslett = input(
-            "Vengligst oppi et klokkelsett for avtalen (TT:MM): ").split(":")
-        try:
-            time, minutt = klokkeslett
-            time = int(time)
-            minutt = int(minutt)
-            starttidspunkt = datetime(aar, maanede, dag, time, minutt)
-        except ValueError:
-            print("Venglisgt oppgi et gyldig klokkeslett")
-            continue
-        break
-
+    varighet_min = hent_int(
+        "Vengligst oppgi hvor lenge avtalen varer (minutter): ", "Ugyldig tall, prøv igjen", 1)
+    starttidspunkt = hent_datoklokkeslett()
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
 
@@ -114,35 +77,21 @@ def strengfiltrer_avtale(avtale_liste: list[Avtale], streng: str):
 def slett_avtale(avtale_lister):
     """Spør brukeren om en avtale og sletter den"""
 
-    utskrift_avtaler(avtale_lister)
-
-    while True:
-        try:
-            key = input("Hvilken avtale vil du slette: ")
-            key = int(key)
-            del avtale_lister[key]
-        except (ValueError, IndexError):
-            print("Oppgi gyldig avtale")
-            continue
-        break
-    return avtale_lister
+    max = len(avtale_lister) - 1
+    min = 0
+    key = hent_int("Hvilken avtale vil du slette: ",
+                   "Oppgi en gyldig avtale", min, max, utskrift_avtaler(), avtale_lister)
+    del avtale_lister[key]
 
 
 def endre_avtale(avtale_lister: list[Avtale]):
     """Spør brukeren om en avtale og lagter en ny avtale"""
 
-    utskrift_avtaler(avtale_lister)
-
-    while True:
-        try:
-            key = input("Hvilken avtale vil du endre: ")
-            key = int(key)
-            del avtale_lister[key]
-        except (ValueError, IndexError):
-            print("Oppgi gyldig avtale")
-            continue
-        break
-
+    max = len(avtale_lister) - 1
+    min = 0
+    key = hent_int(f"Hvilken avtale vil du endre: ",
+                   "Oppgi en gyldig avtale", min, max, utskrift_avtaler, avtale_lister)
+    del avtale_lister[key]
     ny_avtale = lag_avtale()
     avtale_lister.append(ny_avtale)
     return avtale_lister
