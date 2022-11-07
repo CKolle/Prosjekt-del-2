@@ -48,3 +48,19 @@ def les_sted():
         sted_json = json.load(sted_fil)
     return sted_json
 
+def utskrift_stedliste(stedliste: list[Sted]):
+    """Skriver ut alle stedene"""
+    for steder in stedliste:
+        print(f"{steder.navn}")
+
+
+
+
+
+
+
+
+
+
+
+
