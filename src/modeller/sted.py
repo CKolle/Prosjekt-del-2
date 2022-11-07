@@ -36,3 +36,14 @@ def lag_sted() -> Sted:
         return Sted(id, navn, gateadresse, postnummer, poststed)
 
     return Sted(id, navn, gateadresse)
+
+def lagre_sted(steder: list[Sted]):
+    """Lagrer sted i en tekstfil som json format"""
+    with open ("stedfil.txt", "w") as sted_fil:
+        json.dump(steder, sted_fil, indent=4, sort_keys=True)
+def les_sted():
+    """Leser fra fra json tekstfil"""
+    with open ("stedfil.txt", "r") as sted_fil:
+        sted_json = json.load(sted_fil)
+    return sted_json
+
