@@ -1,4 +1,5 @@
 from utils.input_hjelper import hent_int
+import json
 
 
 class Sted:
