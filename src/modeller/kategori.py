@@ -35,7 +35,7 @@ def lag_kategori() -> Kategori:
     return Kategori(id, navn, prioritet)
 
 
-def lagre_avtaler(kategorier: list[Kategori]) -> None:
+def lagre_kategorier(kategorier: list[Kategori]) -> None:
     """Tar inn en liste med kategorier, og lagrer dem i filen kategori.txt på json format"""
 
     with open("kategori.txt", "w") as kategori_fil:
@@ -57,7 +57,7 @@ def les_kategorier() -> list[Kategori]:
     return kategorier
 
 
-def utskrift_kategorier(kategorier: list[Kategori], overskrift=""):
+def utskrift_kategorier(kategorier: list[Kategori], overskrift: str = ""):
     """Printer en liste med kategorier med indeks, navn og en felles overskrift"""
 
     if overskrift != "":
