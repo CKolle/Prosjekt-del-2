@@ -43,7 +43,7 @@ def lagre_avtaler(kategorier: list[Kategori]) -> None:
                   cls=KategoriEncoder, indent=4, sort_keys=True)
 
 
-def les_avtaler() -> list[Kategori]:
+def les_kategorier() -> list[Kategori]:
     """Leser in en json fil med kategorier. Returnerer en liste med kategorier"""
 
     with open("kategori.txt", "r") as kateogri_fil:

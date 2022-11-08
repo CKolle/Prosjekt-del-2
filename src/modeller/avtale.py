@@ -2,17 +2,25 @@ from datetime import datetime
 from utils.input_hjelper import hent_int, hent_datoklokkeslett
 import json
 from utils.json.AvtaleEncoder import AvtaleEncoder
+from modeller.kategori import *
 
 
 class Avtale:
-    def __init__(self, tittel: str, sted: str, varighet_min: int, starttidspunkt: datetime) -> None:
+    def __init__(self, tittel: str, sted: str, varighet_min: int, starttidspunkt: datetime, kategorier: list[Kategori] = None) -> None:
         self.tittel = tittel
         self.sted = sted
         self.varighet_min = varighet_min
         self.starttidspunkt = starttidspunkt
+        self.kategorier = kategorier
 
     def __str__(self):
         return f"Avtale: {self.tittel}\nSted: {self.sted}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt.strftime('%d.%m.%Y kl. %H:%M')}"
+    
+    def legg_til_kategori(self, kategori: Kategori) -> None:
+        if self.kategorier:
+            self.kategorier.append(kategori)
+        else:
+            self.kategorier = [kategori]
 
 
 def lag_avtale() -> Avtale:

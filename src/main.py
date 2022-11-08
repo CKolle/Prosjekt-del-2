@@ -1,6 +1,5 @@
 import os
-from modeller.avtale import lag_avtale, les_avtaler, vis_avtale, lagre_avtaler, utskrift_avtaler, slett_avtale, endre_avtale
-
+from modeller.avtale import *
 
 def vis_meny():
     """Lager et meny system for alle kommandoer"""
