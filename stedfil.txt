@@ -1,9 +1,0 @@
-[
-    {
-        "gateadresse": null,
-        "id": 2,
-        "navn": "oslo",
-        "postnummer": null,
-        "poststed": null
-    }
-]
