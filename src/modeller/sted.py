@@ -57,7 +57,3 @@ def utskrift_stedliste(stedliste: list[Sted]):
     """Skriver ut alle stedene"""
     for steder in stedliste:
         print(f"{steder.navn}")
-
-
-if __name__ == "__main__":
-    lagre_sted([lag_sted()])
