@@ -1,4 +1,5 @@
 from utils.input_hjelper import hent_int
+from utils.json.StedEncoder import StedEncoder
 import json
 
 
@@ -36,18 +37,18 @@ def lag_sted() -> Sted:
         poststed = input("Skriv inn et poststed: ")
         return Sted(id, navn, gateadresse, postnummer, poststed)
 
-    return Sted(id, navn, gateadresse)
+    return Sted(id, navn)
 
 
 def lagre_sted(steder: list[Sted]):
     """Lagrer sted i en tekstfil som json format"""
-    with open ("stedfil.txt", "w") as sted_fil:
-        json.dump(steder, sted_fil, indent=4, sort_keys=True)
+    with open("stedfil.txt", "w") as sted_fil:
+        json.dump(steder, sted_fil, cls=StedEncoder, indent=4, sort_keys=True)
 
 
 def les_sted():
     """Leser fra fra json tekstfil"""
-    with open ("stedfil.txt", "r") as sted_fil:
+    with open("stedfil.txt", "r") as sted_fil:
         sted_json = json.load(sted_fil)
     return sted_json
 
@@ -58,13 +59,5 @@ def utskrift_stedliste(stedliste: list[Sted]):
         print(f"{steder.navn}")
 
 
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    lagre_sted([lag_sted()])

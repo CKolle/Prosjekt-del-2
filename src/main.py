@@ -1,5 +1,7 @@
 import os
-from modeller.avtale import *
+import modeller.avtale as avtale_modell
+from modeller.sted import *
+
 
 def vis_meny():
     """Lager et meny system for alle kommandoer"""
@@ -22,23 +24,23 @@ def vis_meny():
             print("Prøv igjen")
             continue
         if svar == 1:
-            avtale_lister = les_avtaler("avtale.txt")
+            avtale_lister = avtale_modell.les_avtaler("avtale.txt")
         if svar == 2:
-            lagre_avtale = lag_avtale()
+            lagre_avtale = avtale_modell.lag_avtale()
             avtale_lister.append(lagre_avtale)
             print("Avtale lagd")
         if svar == 3:
-            vis_avtale(avtale_lister)
+            avtale_modell.vis_avtale(avtale_lister)
         if svar == 4:
-            lagre_avtaler(avtale_lister)
+            avtale_modell.lagre_avtaler(avtale_lister)
             print("Avtale lagret")
         if svar == 5:
-            utskrift_avtaler(avtale_lister)
+            avtale_modell.utskrift_avtaler(avtale_lister)
         if svar == 6:
-            slett_avtale(avtale_lister)
+            avtale_modell.slett_avtale(avtale_lister)
             print("Avtale slettet")
         if svar == 7:
-            endre_avtale(avtale_lister)
+            avtale_modell.endre_avtale(avtale_lister)
             print("Avtale endret")
         if svar == 8:
             break
