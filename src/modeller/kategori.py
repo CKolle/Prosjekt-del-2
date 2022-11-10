@@ -36,7 +36,9 @@ def lag_kategori() -> Kategori:
 
 
 def lagre_kategorier(kategorier: list[Kategori]) -> None:
-    """Tar inn en liste med kategorier, og lagrer dem i filen kategori.txt på json format"""
+    """Tar inn en liste med kategorier, og lagrer dem i filen kategori.txt på json format sortert etter id"""
+
+    kategorier.sort(key=lambda kategori: kategori.id)
 
     with open("kategori.txt", "w") as kategori_fil:
         json.dump(kategorier, kategori_fil,
@@ -62,3 +64,25 @@ def utskrift_kategorier(kategorier: list[Kategori]):
 
     for kategori in kategorier:
         print(f"{kategorier.index(kategori)}: {kategori.navn}")
+
+
+def soek_kategorier(id):
+    """Binert søk av avtaler ved id"""
+
+    kategorier = les_kategorier()
+    bunn = 0
+    top = len(kategorier) - 1
+    mitten = 0
+
+    while bunn <= top:
+
+        mitten = (bunn + top) // 2
+
+        if kategorier[mitten].id < id:
+            bunn = top + 1
+
+        elif kategorier[mitten].id > id:
+            top = mitten - 1
+
+        else:
+            return kategorier[mitten]

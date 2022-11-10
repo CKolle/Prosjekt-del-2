@@ -32,7 +32,7 @@ def lag_sted() -> Sted:
     svar = input(": ")
     if svar.lower() == "j":
         gateadresse = input("Venligst oppgi en gateadresse: ")
-        postnummer = hent_int("Skriv inn et postnummer",
+        postnummer = hent_int("Skriv inn et postnummer: ",
                               "Ugyldig postnummer, prøv igjen")
         poststed = input("Skriv inn et poststed: ")
         return Sted(id, navn, gateadresse, postnummer, poststed)
@@ -42,15 +42,19 @@ def lag_sted() -> Sted:
 
 def lagre_sted(stedliste: list[Sted]):
     """Lagrer sted i en tekstfil som json format"""
+    stedliste.sort(key=lambda sted: sted.id)
+
     with open("stedfil.txt", "w") as sted_fil:
-        json.dump(stedliste, sted_fil, cls=StedEncoder, indent=4, sort_keys=True)
+        json.dump(stedliste, sted_fil, cls=StedEncoder,
+                  indent=4, sort_keys=True)
 
 
-def les_sted():
+def les_sted() -> list[Sted]:
     """Leser fra fra json tekstfil"""
+
     with open("stedfil.txt", "r") as sted_fil:
         sted_json = json.load(sted_fil)
-    
+
     stedliste = []
     for sted in sted_json:
         sted = Sted(**sted)
@@ -60,6 +64,29 @@ def les_sted():
 
 def utskrift_stedliste(stedliste: list[Sted]):
     """Skriver ut alle stedene"""
-    for sted in stedliste:
-        print(f"{sted.navn}")
-    
+
+    for i, sted in enumerate(stedliste):
+        print(f"{i}: {sted.navn}")
+
+
+def soek_sted(id):
+    """Binert søk av steder etter id"""
+
+    steder = les_sted()
+
+    bunn = 0
+    top = len(steder) - 1
+    mitten = 0
+
+    while bunn <= top:
+
+        mitten = (bunn + top) // 2
+
+        if steder[mitten].id < id:
+            bunn = top + 1
+
+        elif steder[mitten].id > id:
+            top = mitten - 1
+
+        else:
+            return steder[mitten]
