@@ -4,7 +4,6 @@ import json
 from utils.json.AvtaleEncoder import AvtaleEncoder
 from modeller.kategori import *
 from modeller.sted import *
-import sys
 
 
 class Avtale:
@@ -79,6 +78,19 @@ def utskrift_avtaler(avtaler: list[Avtale], overskrift: str = None):
         print(overskrift)
     for avtale in avtaler:
         print(f"{avtaler.index(avtale)}: {avtale.tittel}")
+
+
+def finn_avtaler(stedliste: list[Sted], avtaler: list[Avtale]) -> list[Avtale]:
+    if not stedliste or not avtaler:
+        print("Du har ingen sted eller avtaler ennda")
+        return []
+    min = 0
+    max = len(stedliste) - 1
+    sted_i = hent_int("Velg et sted: ", "Prøv igjen", min,
+                      max, utskrift_stedliste, stedliste)
+    sted = stedliste[sted_i]
+    filtrert = filter(lambda avtale: avtale.sted.id == sted.id, avtaler)
+    return list(filtrert)
 
 
 def lagre_avtaler(avtaler: list[Avtale], kategorier: list[Kategori] = None, steder: list[Sted] = None):

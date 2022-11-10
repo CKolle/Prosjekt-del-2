@@ -21,7 +21,8 @@ def vis_meny():
         print("Legg til kategori [8]")
         print("Legg til kategori til avtale[9]")
         print("Legg til sted [10]")
-        print("Avslutt [11]")
+        print("Vis avtaler på sted [11]")
+        print("Avslutt [12]")
 
         svar = input(": ")
         try:
@@ -60,6 +61,10 @@ def vis_meny():
             sted = sted_modell.lag_sted()
             stedliste.append(sted)
         if svar == 11:
+            avtaler_resultat = avtale_modell.finn_avtaler(
+                stedliste, avtale_lister)
+            avtale_modell.utskrift_avtaler(avtaler_resultat)
+        if svar == 12:
             break
 
         input("Trykk en knapp for neste komando...")
