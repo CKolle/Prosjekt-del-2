@@ -7,7 +7,7 @@ from modeller.sted import *
 
 
 class Avtale:
-    def __init__(self, tittel: str, sted: Sted, varighet_min: int, starttidspunkt: datetime, kategorier: list[Kategori] = None) -> None:
+    def __init__(self, tittel: str, sted: Sted, varighet_min: int, starttidspunkt: datetime, kategorier: list[Kategori] = []) -> None:
         self.tittel = tittel
         self.sted = sted
         self.varighet_min = varighet_min
@@ -15,24 +15,60 @@ class Avtale:
         self.kategorier = kategorier
 
     def __str__(self):
-        return f"Avtale: {self.tittel}\nSted: {self.sted}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt.strftime('%d.%m.%Y kl. %H:%M')}"
-    
-    def legg_til_kategori(self, kategori: Kategori) -> None:
+        return f"Avtale: {self.tittel}\nSted: {self.sted.navn}\nVarighet: {self.varighet_min} min\nDato: {self.starttidspunkt.strftime('%d.%m.%Y kl. %H:%M')}\n kategorier: {[str(x.navn) for x in self.kategorier]}"
+
+    def legg_til_kategori(self, kategori: Kategori):
         if self.kategorier:
             self.kategorier.append(kategori)
-        else:
-            self.kategorier = [kategori]
 
 
-def lag_avtale() -> Avtale:
+def lag_avtale(steder: list[Sted]) -> Avtale:
     """Lager et gyldig avtale objekt"""
 
     tittel = input("Vennligst oppgi navnet på tittelen på avtalen: ")
-    sted = input("Vennligst oppgi stedet for avtalen: ")
     varighet_min = hent_int(
         "Vengligst oppgi hvor lenge avtalen varer (minutter): ", "Ugyldig tall, prøv igjen", 1)
     starttidspunkt = hent_datoklokkeslett()
+
+    if not steder:
+        print("Du har ingen steder i systemet")
+        print("Lager sted")
+        sted = lag_sted()
+        steder.append(sted)
+        return Avtale(tittel, sted, varighet_min, starttidspunkt)
+
+    print("Eksisterende steder")
+    utskrift_stedliste(steder)
+    svar = input("Vil du bruke et eksisterende sted [j/n]?")
+    if svar.lower() == "n":
+        sted = lag_sted()
+        steder.append(sted)
+        return Avtale(tittel, sted, varighet_min, starttidspunkt)
+
+    print("Venligst velg et sted")
+    min = 0
+    max = len(steder) - 1
+    sted_i = hent_int(": ", "Ugyldig sted, prøv igjen",
+                      min, max, utskrift_stedliste, steder)
+    sted = steder[sted_i]
+
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
+
+
+def legg_til_kategori(avtaler: list[Avtale], kategorier: list[Kategori]):
+    if not kategorier:
+        print("Du har ingen lagrede kategorier, lag en og prøv igjen")
+        return
+    min = 0
+    max = len(avtaler) - 1
+    print("Velg en avtale")
+    i_avtale = hent_int(": ", "prøve igjen", min, max,
+                        utskrift_avtaler, avtaler)
+    max = len(kategorier) - 1
+    print("Velg en kateogri")
+    i_kategori = hent_int(": ", "prøv igjen", min, max,
+                          utskrift_kategorier, kategorier)
+    avtaler[i_avtale].legg_til_kategori(kategorier[i_kategori])
 
 
 def utskrift_avtaler(avtaler: list[Avtale], overskrift: str = None):
@@ -42,6 +78,19 @@ def utskrift_avtaler(avtaler: list[Avtale], overskrift: str = None):
         print(overskrift)
     for avtale in avtaler:
         print(f"{avtaler.index(avtale)}: {avtale.tittel}")
+
+
+def finn_avtaler(stedliste: list[Sted], avtaler: list[Avtale]) -> list[Avtale]:
+    if not stedliste or not avtaler:
+        print("Du har ingen sted eller avtaler ennda")
+        return []
+    min = 0
+    max = len(stedliste) - 1
+    sted_i = hent_int("Velg et sted: ", "Prøv igjen", min,
+                      max, utskrift_stedliste, stedliste)
+    sted = stedliste[sted_i]
+    filtrert = filter(lambda avtale: avtale.sted.id == sted.id, avtaler)
+    return list(filtrert)
 
 
 def lagre_avtaler(avtaler: list[Avtale], kategorier: list[Kategori] = None, steder: list[Sted] = None):
@@ -55,31 +104,31 @@ def lagre_avtaler(avtaler: list[Avtale], kategorier: list[Kategori] = None, sted
                   cls=AvtaleEncoder, sort_keys=True)
 
 
-def les_avtaler(filnavn_avtaler: str, filnavn_kategorier: str = None, filnavn_steder: str = None):
+def les_avtaler(filnavn_avtaler: str):
     """Leser inn avtaler, kategorier og steder fra filer"""
 
-    if filnavn_kategorier:
-        kategorier_liste = les_kategorier(filnavn_kategorier)
-    else:
-        kategorier_liste = None
+    kategorier_liste = les_kategorier()
 
-    if filnavn_steder:
-        stedliste = les_sted(filnavn_steder)
-    else:
-        stedliste = None
+    stedliste = les_sted()
 
     with open(filnavn_avtaler, "r") as avtale_fil:
         avtaler_json = json.load(avtale_fil)
 
     # Konverterer fra tekst til en liste med avtale objekter
-    avtaler_liste = []
+    avtaler_liste: list[Avtale] = []
     for avtale in avtaler_json:
         avtale['starttidspunkt'] = datetime.fromisoformat(
             avtale['starttidspunkt'])
+
+        avtale["kategorier"] = [soek_kategorier(
+            id) for id in avtale["kategorier"]]
+
+        avtale["sted"] = soek_sted(avtale["sted"])
+
         avtale = Avtale(**avtale)
         avtaler_liste.append(avtale)
-    
-    return {'kategorier': kategorier_liste, 'stedliste': stedliste, 'avtaler': avtaler_liste}
+
+    return (kategorier_liste, stedliste, avtaler_liste)
 
 
 def datofiltrer_avtale(avtale_liste: list[Avtale], dato: datetime):
