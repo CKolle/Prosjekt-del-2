@@ -3,10 +3,11 @@ from utils.input_hjelper import hent_int, hent_datoklokkeslett
 import json
 from utils.json.AvtaleEncoder import AvtaleEncoder
 from modeller.kategori import *
+from modeller.sted import *
 
 
 class Avtale:
-    def __init__(self, tittel: str, sted: str, varighet_min: int, starttidspunkt: datetime, kategorier: list[Kategori] = None) -> None:
+    def __init__(self, tittel: str, sted: Sted, varighet_min: int, starttidspunkt: datetime, kategorier: list[Kategori] = None) -> None:
         self.tittel = tittel
         self.sted = sted
         self.varighet_min = varighet_min
@@ -34,27 +35,40 @@ def lag_avtale() -> Avtale:
     return Avtale(tittel, sted, varighet_min, starttidspunkt)
 
 
-def utskrift_avtaler(avtaler: list[Avtale], overskrift=""):
+def utskrift_avtaler(avtaler: list[Avtale], overskrift: str = None):
     """Printer en liste med avtaler med indeks tittel og en felles overskrift"""
 
-    if overskrift != "":
+    if overskrift:
         print(overskrift)
     for avtale in avtaler:
         print(f"{avtaler.index(avtale)}: {avtale.tittel}")
 
 
-def lagre_avtaler(avtaler: list[Avtale]):
-    """Lagrer ei liste med avtaler til en avtale fil"""
-
+def lagre_avtaler(avtaler: list[Avtale], kategorier: list[Kategori] = None, steder: list[Sted] = None):
+    """Lagrer ei liste med avtaler, filer og steder til filer"""
+    if kategorier:
+        lagre_kategorier(kategorier)
+    if steder:
+        lagre_sted(steder)
     with open("avtale.txt", "w") as avtale_fil:
         json.dump(avtaler, avtale_fil, indent=4,
                   cls=AvtaleEncoder, sort_keys=True)
 
 
-def les_avtaler(filnavn: str):
-    """Leser inn avtaler fra en fil"""
+def les_avtaler(filnavn_avtaler: str, filnavn_kategorier: str = None, filnavn_steder: str = None):
+    """Leser inn avtaler, kategorier og steder fra filer"""
 
-    with open(filnavn, "r") as avtale_fil:
+    if filnavn_kategorier:
+        kategorier_liste = les_kategorier(filnavn_kategorier)
+    else:
+        kategorier_liste = None
+
+    if filnavn_steder:
+        stedliste = les_sted(filnavn_steder)
+    else:
+        stedliste = None
+
+    with open(filnavn_avtaler, "r") as avtale_fil:
         avtaler_json = json.load(avtale_fil)
 
     # Konverterer fra tekst til en liste med avtale objekter
@@ -64,7 +78,8 @@ def les_avtaler(filnavn: str):
             avtale['starttidspunkt'])
         avtale = Avtale(**avtale)
         avtaler_liste.append(avtale)
-    return avtaler_liste
+    
+    return {'kategorier': kategorier_liste, 'stedliste': stedliste, 'avtaler': avtaler_liste}
 
 
 def datofiltrer_avtale(avtale_liste: list[Avtale], dato: datetime):

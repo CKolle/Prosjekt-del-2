@@ -28,7 +28,7 @@ def lag_sted() -> Sted:
     id = hent_int("Skriv inn en id :",
                   "Ugyldig ID, prøv igjen. Husk id er et tall")
 
-    print("Ønsker du å oppgi adress [j/n]")
+    print("Ønsker du å oppgi adresse [j/n]")
     svar = input(": ")
     if svar.lower() == "j":
         gateadresse = input("Venligst oppgi en gateadresse: ")
@@ -40,24 +40,26 @@ def lag_sted() -> Sted:
     return Sted(id, navn)
 
 
-def lagre_sted(steder: list[Sted]):
+def lagre_sted(stedliste: list[Sted]):
     """Lagrer sted i en tekstfil som json format"""
     with open("stedfil.txt", "w") as sted_fil:
-        json.dump(steder, sted_fil, cls=StedEncoder, indent=4, sort_keys=True)
+        json.dump(stedliste, sted_fil, cls=StedEncoder, indent=4, sort_keys=True)
 
 
 def les_sted():
     """Leser fra fra json tekstfil"""
     with open("stedfil.txt", "r") as sted_fil:
         sted_json = json.load(sted_fil)
-    return sted_json
+    
+    stedliste = []
+    for sted in sted_json:
+        sted = Sted(**sted)
+        stedliste.append(sted)
+    return stedliste
 
 
 def utskrift_stedliste(stedliste: list[Sted]):
     """Skriver ut alle stedene"""
-    for steder in stedliste:
-        print(f"{steder.navn}")
-
-
-if __name__ == "__main__":
-    lagre_sted([lag_sted()])
+    for sted in stedliste:
+        print(f"{sted.navn}")
+    

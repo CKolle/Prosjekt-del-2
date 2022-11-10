@@ -1,6 +1,5 @@
 import os
 import modeller.avtale as avtale_modell
-from modeller.sted import *
 
 
 def vis_meny():
@@ -24,7 +23,7 @@ def vis_meny():
             print("Prøv igjen")
             continue
         if svar == 1:
-            avtale_lister = avtale_modell.les_avtaler("avtale.txt")
+            avtale_lister = avtale_modell.les_avtaler("avtale.txt")['avtaler']
         if svar == 2:
             lagre_avtale = avtale_modell.lag_avtale()
             avtale_lister.append(lagre_avtale)

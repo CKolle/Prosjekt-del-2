@@ -57,10 +57,8 @@ def les_kategorier() -> list[Kategori]:
     return kategorier
 
 
-def utskrift_kategorier(kategorier: list[Kategori], overskrift: str = ""):
-    """Printer en liste med kategorier med indeks, navn og en felles overskrift"""
+def utskrift_kategorier(kategorier: list[Kategori]):
+    """Printer en liste med kategorier med indeks og navn"""
 
-    if overskrift != "":
-        print(overskrift)
     for kategori in kategorier:
         print(f"{kategorier.index(kategori)}: {kategori.navn}")
