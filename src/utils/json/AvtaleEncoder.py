@@ -1,6 +1,5 @@
 from json import JSONEncoder
 from typing import Any
-from utils.json.KategoriEncoder import KategoriEncoder
 
 
 class AvtaleEncoder(JSONEncoder):

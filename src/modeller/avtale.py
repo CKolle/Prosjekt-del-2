@@ -123,7 +123,7 @@ def les_avtaler(filnavn_avtaler: str):
         avtale["kategorier"] = [soek_kategorier(
             id) for id in avtale["kategorier"]]
 
-        avtale["sted"] = soek_sted(avtale["sted"])
+        avtale["sted"] = soek_sted(stedliste, avtale["sted"])
 
         avtale = Avtale(**avtale)
         avtaler_liste.append(avtale)
