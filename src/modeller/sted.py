@@ -69,10 +69,10 @@ def utskrift_stedliste(stedliste: list[Sted]):
         print(f"{i}: {sted.navn}")
 
 
-def soek_sted(id):
+def soek_sted(stedliste: list[Sted], id):
     """Binert søk av steder etter id"""
 
-    steder = les_sted()
+    steder = stedliste
 
     bunn = 0
     top = len(steder) - 1
@@ -80,10 +80,10 @@ def soek_sted(id):
 
     while bunn <= top:
 
-        mitten = (bunn + top) // 2
+        mitten = (top + bunn) // 2
 
         if steder[mitten].id < id:
-            bunn = top + 1
+            bunn = mitten + 1
 
         elif steder[mitten].id > id:
             top = mitten - 1

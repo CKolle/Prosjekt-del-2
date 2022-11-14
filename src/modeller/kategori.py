@@ -79,7 +79,7 @@ def soek_kategorier(id):
         mitten = (bunn + top) // 2
 
         if kategorier[mitten].id < id:
-            bunn = top + 1
+            bunn = mitten + 1
 
         elif kategorier[mitten].id > id:
             top = mitten - 1
